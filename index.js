@@ -1,17 +1,22 @@
-function serialize(root) {
-  const result = [];
-  const queue = [root];
-  while (queue.length) {
-    const node = queue.shift();
-    if (node) {
-      result.push(node.val);
-      queue.push(node.left, node.right);
+function mergeSort(arr) {
+  if (arr.length <= 1) return arr;
+  const mid = Math.floor(arr.length / 2);
+  const left = mergeSort(arr.slice(0, mid));
+  const right = mergeSort(arr.slice(mid));
+  return merge(left, right);
+}
+function merge(left, right) {
+  let result = [];
+  let leftIndex = 0;
+  let rightIndex = 0;
+  while (leftIndex < left.length && rightIndex < right.length) {
+    if (left[leftIndex] < right[rightIndex]) {
+      result.push(left[leftIndex]);
+      leftIndex++;
     } else {
-      result.push(null);
+      result.push(right[rightIndex]);
+      rightIndex++;
     }
   }
-  while (result[result.length - 1] === null) {
-    result.pop();
-  }
-  return result;
+  return result.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
 }
